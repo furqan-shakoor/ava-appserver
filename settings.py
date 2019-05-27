@@ -1,0 +1,1 @@
+REDIS_CONN = 'redis://localhost:6379/2'
