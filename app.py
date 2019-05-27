@@ -18,9 +18,7 @@ async def send_message(redis_conn, conn_id, message, response_queue):
 
 
 async def run(ev_loop):
-    conn_string = settings.REDIS_CONN
-    print(conn_string)
-    conn = await aioredis.create_connection(conn_string, loop=ev_loop)
+    conn = await aioredis.create_connection(settings.REDIS_CONN, loop=ev_loop, password=settings.REDIS_PASSWORD)
 
     redis = aioredis.Redis(conn)
 
