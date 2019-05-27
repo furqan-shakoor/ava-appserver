@@ -106,3 +106,4 @@ venv.bak/
 .idea/
 
 prod_settings.py
+prod_settings_avalanche.py
