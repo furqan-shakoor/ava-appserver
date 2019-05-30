@@ -29,7 +29,8 @@ async def run(ev_loop):
 
         msg_type, msg_sender, response_queue, msg_full = data.get('type'), data.get('conn_id'), data.get('response_queue'), data
 
-        print(f"{msg_type} {msg_sender} {msg_full.get('message', '')}")
+        if msg_type not in ("CONNECTED", "DISCONNECTED"):
+            print(f"{msg_type} {msg_sender} {msg_full.get('message', '')}")
 
         # name = str(random.choice(range(10, 99)))
 
