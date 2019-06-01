@@ -1,0 +1,11 @@
+[Unit]
+Description=Avalanche Application Server
+After=multi-user.target
+
+[Service]
+Type=idle
+WorkingDirectory=/root/ava-appserver
+ExecStart=/usr/bin/python3 app.py
+
+[Install]
+WantedBy=multi-user.target

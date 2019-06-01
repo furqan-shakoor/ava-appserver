@@ -1,0 +1,11 @@
+[Unit]
+Description=Avalanche Websocket Server
+After=multi-user.target
+
+[Service]
+Type=idle
+WorkingDirectory=/root/avalanche
+ExecStart=/usr/bin/python3 avalanche.py
+
+[Install]
+WantedBy=multi-user.target
