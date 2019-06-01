@@ -1,9 +1,14 @@
 import asyncio
 import json
+import logging
 
 import aioredis
 
 import settings
+
+logging.basicConfig(filename="/var/log/avalanche/appserver.log",
+                    level=logging.DEBUG,
+                    format='%(levelname)s:%(asctime)s:%(message)s')
 
 loop = asyncio.get_event_loop()
 
@@ -22,7 +27,7 @@ async def run(ev_loop):
 
     redis = aioredis.Redis(conn)
 
-    print("Starting app server")
+    logging.info("Starting app server")
     while ev_loop.is_running():
         queue_name, data = await redis.blpop('avalanche_messages')
         data = json.loads(data)
@@ -30,7 +35,7 @@ async def run(ev_loop):
         msg_type, msg_sender, response_queue, msg_full = data.get('type'), data.get('conn_id'), data.get('response_queue'), data
 
         if msg_type not in ("CONNECTED", "DISCONNECTED"):
-            print(f"{msg_type} {msg_sender} {msg_full.get('message', '')}")
+            logging.info(f"{msg_type} {msg_sender} {msg_full.get('message', '')}")
 
         # name = str(random.choice(range(10, 99)))
 
@@ -68,5 +73,9 @@ async def run(ev_loop):
     conn.close()
     await conn.wait_closed()
 
-
-loop.run_until_complete(run(loop))
+try:
+    loop.run_until_complete(run(loop))
+except Exception as e:
+    logging.exception("Catastrophic Failure")
+except KeyboardInterrupt as e:
+    logging.exception("Keyboard Interrupt, exiting")
