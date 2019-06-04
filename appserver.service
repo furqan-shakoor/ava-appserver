@@ -6,6 +6,7 @@ After=multi-user.target
 Type=idle
 WorkingDirectory=/root/ava-appserver
 ExecStart=/usr/bin/python3 app.py
+LimitNOFILE=500000
 
 [Install]
 WantedBy=multi-user.target
